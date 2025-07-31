@@ -1,0 +1,8 @@
+streamlit
+pandas
+google-generativeai
+python-dotenv
+psycopg2-binary
+SQLAlchemy
+matplotlib
+tabulate

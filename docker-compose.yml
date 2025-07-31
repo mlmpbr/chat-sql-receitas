@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13
+    container_name: meu_postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: meubanco
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - minha-rede
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: meu_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - minha-rede
+
+  app:
+    build: .
+    container_name: meu_app_sql
+    ports:
+      - "8501:8501"
+    depends_on:
+      - postgres
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+    networks:
+      - minha-rede
+
+volumes:
+  postgres_data:
+
+networks:
+  minha-rede:
